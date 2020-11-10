@@ -8,6 +8,9 @@ import { getAppointmentsForDay, getInterview,getInterviewersForDay } from "helpe
 
 const axios = require('axios').default;
 
+const getSpotsForDay = (day, appointments) => day.appointments.length - day.appointments
+  .reduce((count, id) => (appointments[id].interview ? count + 1 : count), 0);
+
 export default function Application(props) {
 
   const [state, setState] = useState({
@@ -32,8 +35,8 @@ export default function Application(props) {
     });
   },[]);
 
-
   function bookInterview(id, interview) {
+    
     const appointment = {
       ...state.appointments[id],
       interview
@@ -42,42 +45,25 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
-
-    setState({
-      ...state,
-      appointments
+    const days = state.days.map(day => { 
+      return day.appointments.includes(id)
+      ? {...day, spots: getSpotsForDay(day, appointments)}
+      : day;     
     });
     
-   //axios.get("/api/debug/reset");
-    return axios.put("/api/appointments/"+id, {interview: interview})
+    return axios.put("/api/appointments/"+id, appointment)
       .then((res) => {
-        //console.log("res.data");
-        //console.log(res.config.data);
         const resObj=JSON.parse(res.config.data);
         const interview = resObj.interview;
-     
-      //console.log(interview);
-      const appointment = {
-        ...state.appointments[id],
-        interview
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-  
       setState({
         ...state,
+        days,
         appointments
       });
-      //console.log(state);
-    });
-  
+    }); 
   }
 
   function cancelInterview(id) {
-    console.log(id);
-  
     const appointment = {
       ...state.appointments[id],
       interview: null
@@ -87,38 +73,20 @@ export default function Application(props) {
       [id]: appointment
     };
     
-    setState({
-      ...state,
-      appointments
+    const days = state.days.map(day => { 
+      return day.appointments.includes(id)
+      ? {...day, spots: getSpotsForDay(day, appointments)}
+      : day;     
     });
-    console.log(state);
     
-    axios.put("/api/appointments/"+id, ).catch((e)=>{console.log(e.response.data)})
-  
-    //  .then((res) => {
-    //    console.log("res.data");
-    //    console.log(res.config.data);
-    /*    
-        const resObj=JSON.parse(res.config.data);
-        const interview = resObj.interview;
-     
-      //console.log(interview);
-      const appointment = {
-        ...state.appointments[id],
-        interview
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-  
+    return axios.delete("/api/appointments/"+id,appointment)
+    .then(() => {
       setState({
         ...state,
+        days,
         appointments
       });
-      //console.log(state);
-    */
-  //  });
+    });
     
   }
 

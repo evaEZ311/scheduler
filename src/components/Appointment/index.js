@@ -28,16 +28,19 @@ function save(name, interviewer) {
     student: name,
     interviewer
   }; 
-  props.bookInterview(props.id, interview);
-  transition(SHOW);
+  props.bookInterview(props.id, interview)
+  .then(()=>{transition(SHOW);})
+  .catch((error)=>{console.error(error);})
+  
 }
 
 function cancel(){
-  //transition(DELETING);
- 
-  //transition(CONFIRM);
-  transition(EMPTY);
-  props.cancelInterview(props.id);
+  transition(DELETING);
+  
+  props.cancelInterview(props.id)
+  .then(()=>{transition(EMPTY);})
+  .catch((error)=>{console.error(error);})
+  
 }
 
 function edit(){
