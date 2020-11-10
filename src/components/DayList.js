@@ -3,7 +3,7 @@ import "components/DayListItem.js";
 import DayListItem from "components/DayListItem.js";
 
 export default function DayList(props) {
-  console.log(props);
+
   const dayList = props.days.map(day => {
     return (
       <DayListItem 
@@ -20,4 +20,3 @@ export default function DayList(props) {
   );
 }
 
-//setDay={props.setDay}

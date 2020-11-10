@@ -5,6 +5,7 @@ import Header from "components/Appointment/Header.js";
 import Show from "components/Appointment/Show.js";
 import Empty from "components/Appointment/Empty.js";
 import Status from "components/Appointment/Status.js";
+import Confirm from "components/Appointment/Confirm.js";
 import useVisualMode from "hooks/useVisualMode";
 import Form from "components/Appointment/Form.js";
 
@@ -34,13 +35,15 @@ function save(name, interviewer) {
   
 }
 
+function confirm(){
+  transition(CONFIRM);
+}
+
 function cancel(){
   transition(DELETING);
-  
   props.cancelInterview(props.id)
-  .then(()=>{transition(EMPTY);})
-  .catch((error)=>{console.error(error);})
-  
+   .then(()=>{transition(EMPTY);})
+   .catch((error)=>{console.error(error);})
 }
 
 function edit(){
@@ -56,7 +59,7 @@ function edit(){
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          cancelInterview = {cancel}
+          cancelInterview = {confirm}
           editInterview = {edit}
         />
       )} 
@@ -66,6 +69,8 @@ function edit(){
          onSave={save}
         />}
       {mode === SAVING && <Status message="Saving"/>}
+      {mode === DELETING && <Status message="Deleting"/>}
+      {mode === CONFIRM && <Confirm onCancel={()=>back()} onConfirm={cancel} message="Delete the appointment?"/>}
     </article>
   );
 }

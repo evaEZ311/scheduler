@@ -4,7 +4,6 @@ import "components/Application.scss";
 import DayList from "components/DayList.js";
 import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview,getInterviewersForDay } from "helpers/selectors";
-//import { useVisualMode } from "hooks/useVisualMode";
 
 const axios = require('axios').default;
 
@@ -12,7 +11,7 @@ const getSpotsForDay = (day, appointments) => day.appointments.length - day.appo
   .reduce((count, id) => (appointments[id].interview ? count + 1 : count), 0);
 
 export default function Application(props) {
-
+//axios.get("/api/debug/reset");
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -90,19 +89,18 @@ export default function Application(props) {
     
   }
 
-  const appointmenttag = 
-  dailyAppointments.map(appointment => { 
+  const appointmenttag = dailyAppointments.map(appointment => { 
     const interview = getInterview(state, appointment.interview);
     return (
       <Appointment 
-      key={appointment.id}
-      id = {appointment.id}
-      time = {appointment.time}
-      interview = {interview}
-      interviews = {AppointmentInterviewer}
-      bookInterview = {bookInterview}
-      cancelInterview = {cancelInterview}
-    />
+        key={appointment.id}
+        id = {appointment.id}
+        time = {appointment.time}
+        interview = {interview}
+        interviews = {AppointmentInterviewer}
+        bookInterview = {bookInterview}
+        cancelInterview = {cancelInterview}
+      />
     )
   });
 
@@ -116,10 +114,6 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-       {/*
-        
-        <DayList days={state.days} day={state.day} setDay={setDay} />
-       */}
           <DayList days={state.days} value={state.day} onChange={setDay} />
         </nav>
         <img
