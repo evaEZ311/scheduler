@@ -27,8 +27,8 @@ export default function Appointment(props) {
   );
 
 function save(name, interviewer) {
-  if (name === "") {
-    console.log ("name can't be blank");
+  if ((name === "") ||(interviewer === null)){
+    console.log ("can't be blank");
     transition(CREATE);
   } else {
   transition(SAVING);
