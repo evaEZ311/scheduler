@@ -10,92 +10,18 @@ import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
 //axios.get("/api/debug/reset");
-/*
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
-  });
-*/
 
-const {
-  state,
-  setDay,
-  bookInterview,
-  cancelInterview
-} = useApplicationData();
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
   const AppointmentInterviewer = getInterviewersForDay(state,state.day);
-/*
-  const setDay = day => setState({ ...state, day });
-  
-  useEffect(()=> {Promise.all([
-    axios.get("/api/days"),
-    axios.get("/api/appointments"),
-    axios.get("api/interviewers")
-    ]).then((all) => {
-      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data})); 
-    });
-  },[]);
 
-  function bookInterview(id, interview) {
-    
-    const appointment = {
-      ...state.appointments[id],
-      interview
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    const days = state.days.map(day => { 
-      return day.appointments.includes(id)
-      ? {...day, spots: getSpotsForDay(day, appointments)}
-      : day;     
-    });
-    
-    return axios.put("/api/appointments/"+id, appointment)
-      .then((res) => {
-        const resObj=JSON.parse(res.config.data);
-        const interview = resObj.interview;
-      setState({
-        ...state,
-        days,
-        appointments
-      });
-    }); 
-  }
-
-  function cancelInterview(id) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    
-    const days = state.days.map(day => { 
-      return day.appointments.includes(id)
-      ? {...day, spots: getSpotsForDay(day, appointments)}
-      : day;     
-    });
-    
-    return axios.delete("/api/appointments/"+id,appointment)
-    .then(() => {
-      setState({
-        ...state,
-        days,
-        appointments
-      });
-    });
-    
-  }
-*/
   const appointmenttag = dailyAppointments.map(appointment => { 
     const interview = getInterview(state, appointment.interview);
     return (
