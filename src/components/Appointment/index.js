@@ -78,7 +78,7 @@ function edit(){
       {mode === DELETING && <Status message="Deleting"/>}
       {mode === CONFIRM && <Confirm onCancel={()=>back()} onConfirm={cancel} message="Delete the appointment?"/>}
       {mode === ERROR_SAVE && <Error message="Couldn't save the appointment"/>}
-      {mode === ERROR_DELETE && <Error message="Couldn't delete the appointment"/>}
+      {mode === ERROR_DELETE && <Error message="Couldn't delete the appointment" onClose={()=>{back(); back()}}/>}
     </article>
   );
 }
