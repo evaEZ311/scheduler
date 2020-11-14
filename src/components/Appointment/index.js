@@ -27,6 +27,10 @@ export default function Appointment(props) {
   );
 
 function save(name, interviewer) {
+  if (name === "") {
+    console.log ("name can't be blank");
+    transition(CREATE);
+  } else {
   transition(SAVING);
   const interview = {
     student: name,
@@ -35,6 +39,7 @@ function save(name, interviewer) {
   props.bookInterview(props.id, interview)
   .then(()=>{transition(SHOW);})
   .catch((error)=>{transition(ERROR_SAVE, true)}) 
+}
 }
 
 function confirm(){
