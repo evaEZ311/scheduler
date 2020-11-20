@@ -14,6 +14,7 @@ import Form from "components/Appointment/Form.js";
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
+const EDIT = "EDIT";
 const SAVING = "SAVING";
 const DELETING= "DELETING";
 const CONFIRM= "CONFIRM";
@@ -53,7 +54,8 @@ function cancel(){
 }
 
 function edit(){
-  transition(CREATE);
+  //transition(CREATE);
+  transition(EDIT);
 }
 
   return (
@@ -73,7 +75,14 @@ function edit(){
          interviewers={props.interviews}
          onCancel={()=> back()}
          onSave={save}
-        />}
+      />}
+      {mode === EDIT && (<Form
+        name={props.interview.student}
+        interviewer={props.interview.interviewer.id}
+        interviewers={props.interviews}
+        onSave={save}
+        onCancel={back}
+      />)}
       {mode === SAVING && <Status message="Saving"/>}
       {mode === DELETING && <Status message="Deleting"/>}
       {mode === CONFIRM && <Confirm onCancel={()=>back()} onConfirm={cancel} message="Delete the appointment?"/>}
