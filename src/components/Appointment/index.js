@@ -54,7 +54,6 @@ function cancel(){
 }
 
 function edit(){
-  //transition(CREATE);
   transition(EDIT);
 }
 

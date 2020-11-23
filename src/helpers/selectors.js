@@ -1,6 +1,4 @@
 function getAppointmentsForDay(state, day) {
-  console.log(state.day);
-  console.log(state);
   if (Array.isArray(state.days) && state.days.length === 0) {
       return state.days;
   } else {
